@@ -1,0 +1,2 @@
+FROM mariadb:latest
+

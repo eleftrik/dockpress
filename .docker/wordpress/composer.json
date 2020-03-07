@@ -1,0 +1,7 @@
+{
+  "type": "project",
+  "require": {
+    "vlucas/phpdotenv": "^3.6"
+  },
+  "license": "MIT"
+}

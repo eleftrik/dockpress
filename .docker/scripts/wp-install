@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export CURRENT_UID=$(id -u):$(id -g)
+source .env
+mkdir -p ${APP_SRC}
+wp core download --locale=${WP_LOCALE} --path=${APP_SRC}
+
+.docker/scripts/wp-init
