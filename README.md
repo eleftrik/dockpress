@@ -1,5 +1,10 @@
 Dockpress
 ===
+![GitHub stars](https://img.shields.io/github/stars/eleftrik/dockpress?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/eleftrik/dockpress?style=social)
+![GitHub issues](https://img.shields.io/github/issues/eleftrik/dockpress)
+![GitHub](https://img.shields.io/github/license/eleftrik/dockpress)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/eleftrik/dockpress?label=version)
 
 Dockpress is a Docker-based basic LEMP development environment designed for WordPress applications.
 
