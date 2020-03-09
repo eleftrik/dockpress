@@ -1,6 +1,9 @@
 #!/bin/bash
 
 source .env
+source .docker/scripts/include/wp.sh
+
+is_wp_installed
 
 TARGET_ENV="${APP_SRC}/.env"
 
