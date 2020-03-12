@@ -49,3 +49,7 @@ RUN sed -e 's/memory_limit = 128M/memory_limit = 512M/' -i "$PHP_INI_DIR/php.ini
 COPY ./cron /etc/cron.d/cron
 RUN chmod 0644 /etc/cron.d/cron
 RUN crontab /etc/cron.d/cron
+
+# Install wp-cli globally
+RUN cd /tmp && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
