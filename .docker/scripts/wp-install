@@ -3,11 +3,10 @@
 export CURRENT_UID=$(id -u):$(id -g)
 
 source .env
-source .docker/scripts/include/wp.sh
 
-is_wp_installed
-
+# Download WordPress core into $APP_SRC folder
 mkdir -p ${APP_SRC}
-wp core download --locale=${WP_LOCALE} --path=${APP_SRC}
+docker-compose run php-fpm bash -c "export WP_CLI_CACHE_DIR=/dev/null && wp --allow-root core download --locale=${WP_LOCALE} --path=/var/www"
 
+# Install WordPress
 .docker/scripts/wp-init

@@ -12,7 +12,6 @@ Dockpress is a Docker-based basic LEMP development environment designed for Word
 
 * MacOS, Linux or Windows with WSL
 * Docker
-* [wp-cli](http://wp-cli.org) globally installed
 
 ## Features
 
