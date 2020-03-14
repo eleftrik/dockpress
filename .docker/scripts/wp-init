@@ -45,7 +45,9 @@ cd $APP_SRC && composer install
 cd $CURRENT_DIR
 
 # Install WordPress
-docker-compose run php-fpm bash -c "export WP_CLI_CACHE_DIR=/dev/null && wp --allow-root core install --url=${APP_HOST} --title="Blog" --admin_user=${WP_ADMIN_USER} --admin_email=${WP_ADMIN_EMAIL} --admin_password=${WP_ADMIN_PASSWORD} --skip-email"
+docker-compose run php-fpm bash -c "export WP_CLI_CACHE_DIR=/dev/null && wp --allow-root core install \\
+  --url=${APP_HOST} --title=\"${WP_SITE_TITLE}\" --admin_user=${WP_ADMIN_USER} \\
+  --admin_email=${WP_ADMIN_EMAIL} --admin_password=\"${WP_ADMIN_PASSWORD}\" --skip-email"
 
 echo "Visit:"
 echo "- http://${APP_HOST}"
