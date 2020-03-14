@@ -37,7 +37,7 @@ services:
     depends_on:
       - php-fpm
   php-fpm:
-    user: ${CURRENT_UID}
+    user: www
     container_name: ${CONTAINER_PREFIX}_php-fpm
     working_dir: /var/www/
     expose:
@@ -56,7 +56,6 @@ services:
     expose:
       - 6379
   mailhog:
-    user: ${CURRENT_UID}
     restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_mailhog
     build:

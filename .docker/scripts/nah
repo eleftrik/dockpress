@@ -1,6 +1,4 @@
 #!/bin/bash
-export CURRENT_UID=$(id -u):$(id -g)
-
 source .env
 echo "Stopping all containers and removing volumes..."
 docker-compose down -v
