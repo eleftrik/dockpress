@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export CURRENT_UID=$(id -u):$(id -g)
-
 source .env
 
 # Download WordPress core into $APP_SRC folder
