@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2020-03-14
+### Fixed
+- wp-init script does not create anymore a .env\'\' file
+
 ## [1.3.0] - 2020-03-14
 ### Added
 - Add `WP_SITE_TITLE` parameter in .env file
