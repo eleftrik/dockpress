@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2020-03-14
+### Added
+- Add `WP_SITE_TITLE` parameter in .env file
+### Changed
+- Run `php-fpm` container as `www` user
+- Optimize `php-fpm` Dockerfile
+- Improve comments in several files
+
 ## [1.2.0] - 2020-03-13
 ### Added
 - Add comments to scripts

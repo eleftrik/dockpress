@@ -38,6 +38,7 @@ Create an .env file (see .env.example)
 cp .env.example .env
 
 # Customize every variable according to your needs
+# See comments to each variable in .env.example file 
 ```
 
 According to the value of `$APP_HOST`, add your test domain (e.g. `mydockpress.test`) to your hosts file
