@@ -12,7 +12,7 @@ WP_SALTS=${WP_SALTS//echo}
 
 SED_OPTIONS=""
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  SED_OPTIONS="\'\'"
+  SED_OPTIONS="''"
 fi
 
 # Copy configuration from templates
