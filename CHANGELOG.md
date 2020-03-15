@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.3] - 2020-03-15
+### Fixed
+- `wp-init` script doesn't use anymore `sed` for substitutions
+- remove unused code
+
 ## [1.3.2] - 2020-03-15
 ### Fixed
 - `wp` command inside `php-fpm` container didn't work anymore due to the lack of `less` command
