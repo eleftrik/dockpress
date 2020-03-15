@@ -5,16 +5,6 @@ source .env
 # Along with main .env file, a .env inside WordPress folder ($APP_SRC) will be used
 TARGET_ENV="${APP_SRC}/.env"
 
-#
-# Grab random security keys and salts from WordPress.org
-WP_SALTS=$(wget https://api.wordpress.org/secret-key/1.1/salt/ -q -O -)
-WP_SALTS=${WP_SALTS//echo}
-
-SED_OPTIONS=""
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  SED_OPTIONS="''"
-fi
-
 # Copy configuration from templates
 rm -f ${APP_SRC}/.env
 cp .docker/wordpress/.env.example ${APP_SRC}/.env
@@ -23,14 +13,18 @@ cp .docker/wordpress/wp-config.php ${APP_SRC}/
 
 # Database connection parameters: read them from main .env file and write
 # them into WordPress .env file
-sed -i $SED_OPTIONS "s/DATABASE_NAME=.*/DATABASE_NAME=\"$MYSQL_DATABASE\"/g" $TARGET_ENV
-sed -i $SED_OPTIONS "s/DATABASE_USER=.*/DATABASE_USER=\"$MYSQL_USER\"/g" $TARGET_ENV
-sed -i $SED_OPTIONS "s/DATABASE_PASSWORD=.*/DATABASE_PASSWORD=\"$MYSQL_PASSWORD\"/g" $TARGET_ENV
-sed -i $SED_OPTIONS "s/DATABASE_HOST=.*/DATABASE_HOST=\"database\"/g" $TARGET_ENV
+ENV_FILE=$(<$TARGET_ENV)
 
+ENV_FILE=${ENV_FILE//DATABASE_NAME=/DATABASE_NAME=\"$MYSQL_DATABASE\"}
+ENV_FILE=${ENV_FILE//DATABASE_USER=/DATABASE_USER=\"$MYSQL_USER\"}
+ENV_FILE=${ENV_FILE//DATABASE_PASSWORD=/DATABASE_PASSWORD=\"$MYSQL_PASSWORD\"}
+ENV_FILE=${ENV_FILE//DATABASE_HOST=/DATABASE_HOST=\"database\"}
+echo "$ENV_FILE" > $TARGET_ENV
+
+# Grab random security keys and salts from WordPress.org
+SALTS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
 # Given security keys and salts, "normalize" them to be stored into the .env file.
 # wp-config.php will use these values reading .env file inside WordPress folder
-SALTS=$(curl -s https://api.wordpress.org/secret-key/1.1/salt/)
 while read -r SALT; do
   SALT=${SALT/define(\'/}
   SALT=${SALT/\');/\"}
@@ -49,8 +43,8 @@ docker-compose run php-fpm bash -c "export WP_CLI_CACHE_DIR=/dev/null && wp --al
   --url=${APP_HOST} --title=\"${WP_SITE_TITLE}\" --admin_user=${WP_ADMIN_USER} \\
   --admin_email=${WP_ADMIN_EMAIL} --admin_password=\"${WP_ADMIN_PASSWORD}\" --skip-email"
 
-echo "Visit:"
+echo -e "\n\nVisit:"
 echo "- http://${APP_HOST}"
 echo "- http://${APP_HOST}/wp-admin   (login with '${WP_ADMIN_USER}' user)"
-echo "Enjoy!"
+echo -e "\nEnjoy!\n\n"
 exit 0
