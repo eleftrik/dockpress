@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.2] - 2020-03-15
+### Fixed
+- `wp` command inside `php-fpm` container didn't work anymore due to the lack of `less` command
+
 ## [1.3.1] - 2020-03-14
 ### Fixed
 - wp-init script does not create anymore a .env\'\' file
