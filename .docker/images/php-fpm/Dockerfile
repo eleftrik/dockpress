@@ -30,6 +30,7 @@ RUN apt-get update && \
     libpng-dev \
     libssl-dev \
     libmcrypt-dev \
+    less \
     nano \
     vim \
     cron \
