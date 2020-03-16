@@ -62,6 +62,19 @@ Finished working? Just stop everything:
 .docker/scripts/stop
 ```
 
+## Updates
+
+When updating from a previous version, follow these steps:
+- update your code
+    - via `git pull` if you're still referencing this repository, a fork or a private one
+    - manually downloading the desired [release](https://github.com/eleftrik/dockpress/releases)
+    
+    In both cases, the `src/` folder won't be affected 
+- see `CHANGELOG.md`
+- update your `./.env` file according to `./.env.example`
+  (new variables may have been introduced)
+- launch `.docker/scripts/start --build`
+
 ## Scripts
 
 Dockpress provides some useful script, located in `.docker/scripts`:
