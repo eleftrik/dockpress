@@ -1,7 +1,7 @@
 Dockpress
 ===
 
-![default](https://user-images.githubusercontent.com/6959298/77826958-28243400-7113-11ea-8e2e-5b468c22d085.png)
+![dockpress](https://user-images.githubusercontent.com/6959298/77827046-c0bab400-7113-11ea-82bc-ca1214fae140.png)
 
 ![GitHub stars](https://img.shields.io/github/stars/eleftrik/dockpress?style=social)
 ![GitHub watchers](https://img.shields.io/github/watchers/eleftrik/dockpress?style=social)
