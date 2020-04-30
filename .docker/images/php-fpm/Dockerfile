@@ -1,4 +1,8 @@
-FROM php:7.3-fpm
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}-fpm
+
+# Set working directory
+#WORKDIR /var/www
 
 # If XDebug has been enabled, configure it
 ARG ENABLE_XDEBUG
@@ -16,10 +20,6 @@ RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
     && echo "xdebug.profiler_output_dir='/opt/profile'" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && docker-php-ext-enable xdebug ;\
 fi;
-
-#    && echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/xdebug.ini \
-#    && echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-#    && echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/xdebug.ini \
 
 # Install dependencies
 RUN apt-get update && \
@@ -51,8 +51,15 @@ RUN docker-php-ext-install pdo_mysql \
 RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
-RUN docker-php-ext-configure gd -with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-RUN docker-php-ext-install gd
+RUN if [[ ${PHP_VERSION} == 7.4* ]] ; then \
+    docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j "$(nproc)" gd; \
+fi;
+RUN if [[ ${PHP_VERSION} == 7.2* ]] || [[ ${PHP_VERSION} == 7.3* ]] ; then \
+    docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+    && docker-php-ext-install gd;\
+fi;
+RUN docker-php-ext-install opcache
 
 # Configure php.ini
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -63,9 +70,16 @@ RUN sed -e 's/memory_limit = 128M/memory_limit = 512M/' -i "$PHP_INI_DIR/php.ini
 RUN cd /tmp && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
+# Configure opcache.ini
+COPY ./conf.d/opcache.ini /tmp
+RUN mv /tmp/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
 # Add www user and www group
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
+
+# Copy existing application directory permissions
+RUN chown -R www: /var/www
 
 # Change current user to www
 USER www

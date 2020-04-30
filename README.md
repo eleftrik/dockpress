@@ -19,11 +19,18 @@ Dockpress is a Docker-based basic LEMP development environment designed for Word
 ## Features
 
 * Nginx
-* PHP 7.3
+* PHP (7.2 / 7.3 / 7.4) with OPCache
 * MariaDB
 * Mailhog
 * Redis
 * Custom domain name (e.g. `http://mydockpress.test`)
+
+You can choose which version of PHP (for example, `7.4`) to run by setting `$PHP_VERSION` variable in your
+`.env` file (see `.env.example` for details).
+
+In case you want to customize your Docker configuration (e.g. adding some mount),
+just run `cp docker-compose.yml docker-compose.override.yml` then edit your
+`docker-compose.override.yml`. It will be used by Docker. 
 
 ## Installation
 

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 services:
   database:
     restart: always
@@ -12,6 +12,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_INITDB_SKIP_TZINFO: 1
     expose:
       - "3306"
     ports:
@@ -45,9 +46,10 @@ services:
     build:
       context: ./.docker/images/php-fpm
       args:
+        - PHP_VERSION=${PHP_VERSION}
         - ENABLE_XDEBUG=${ENABLE_XDEBUG}
     volumes:
-      - ${APP_SRC}:/var/www/
+      - ${APP_SRC}:/var/www/:cached
   redis:
     restart: always
     container_name: ${CONTAINER_PREFIX}_redis
