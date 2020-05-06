@@ -9,32 +9,40 @@ Dockpress
 ![GitHub](https://img.shields.io/github/license/eleftrik/dockpress)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/eleftrik/dockpress?label=version)
 
-Dockpress is a Docker-based basic LEMP development environment designed for WordPress applications.
+**Dockpress** is a Docker-based basic LEMP development environment designed for [WordPress](https://wordpress.org/) applications.
+
+Looking for a similar Docker environment for [Laravel](https://laravel.com/)? Then give a try to
+[Laradhoc](https://github.com/eleftrik/laradhoc)!
+
+## Features
+
+* Nginx
+* PHP (7.2 / 7.3 / 7.4) with OPCache
+* MySQL / MariaDB
+* Mailhog
+* Redis
+* Custom domain name (e.g. `http://mydockpress.test`)
+
+You can choose which version of PHP (for example, `7.4`) to run by setting `${PHP_VERSION}` variable in your
+`.env` file (see `.env.example` for details).
+
+Likewise, you can choose your database (for example, `MariaDB 10.2`) by setting `${DATABASE_IMAGE}` variable in your
+`.env` file (see `.env.example` for details)
+
+In case you want to customize your Docker configuration (e.g. adding some mount),
+just run `cp docker-compose.yml docker-compose.override.yml` then edit your
+`docker-compose.override.yml`. It will be used by Docker. 
 
 ## Requirements
 
 * MacOS, Linux or Windows with WSL
 * Docker
 
-## Features
-
-* Nginx
-* PHP (7.2 / 7.3 / 7.4) with OPCache
-* MariaDB
-* Mailhog
-* Redis
-* Custom domain name (e.g. `http://mydockpress.test`)
-
-You can choose which version of PHP (for example, `7.4`) to run by setting `$PHP_VERSION` variable in your
-`.env` file (see `.env.example` for details).
-
-In case you want to customize your Docker configuration (e.g. adding some mount),
-just run `cp docker-compose.yml docker-compose.override.yml` then edit your
-`docker-compose.override.yml`. It will be used by Docker. 
-
 ## Installation
 
-Just clone this repo
+Just clone this repo.
+
+Let's pretend your Laravel application will be accessible at `mydockpress.test`:
 
 ```bash
 git clone git@github.com:eleftrik/dockpress.git mydockpress.test
@@ -43,7 +51,8 @@ cd mydockpress.test
 
 ## Configuration
 
-Create an .env file (see .env.example)
+### .env
+Create an `.env` file from `.env.example`
 ```bash
 cp .env.example .env
 
@@ -51,26 +60,35 @@ cp .env.example .env
 # See comments to each variable in .env.example file 
 ```
 
-According to the value of `$APP_HOST`, add your test domain (e.g. `mydockpress.test`) to your hosts file
+### Custom domain
+According to the value of `${APP_HOST}`, add your test domain (e.g. `mydockpress.test`) to your hosts file
 ```bash
 sudo /bin/bash -c 'echo -e "127.0.0.1 mydockpress.test" >> /etc/hosts'
 ```
 
+### Let's go
 Build all Docker containers and start them
 ```bash
- .docker/scripts/start --build
+ .docker/scripts/init
 ```
 
 New WordPress project starting from the scratch? No problem, just run:
 ```bash
 .docker/scripts/wp-install
 ```
-A fresh WordPress installation will be downloaded in `$APP_SRC`, configured and available at `APP_SRC`.
+A fresh WordPress installation will be downloaded in `${APP_SRC}`, configured and available at [http://${APP_HOST}]()
+or [https://${APP_HOST}]()
 
 Finished working? Just stop everything:
 ```bash
 .docker/scripts/stop
 ```
+
+Next time you need to run your application, if you haven't changed any setting, just run
+```bash
+ .docker/scripts/start
+```
+
 
 ## Updates
 
@@ -83,13 +101,35 @@ When updating from a previous version, follow these steps:
 - see `CHANGELOG.md`
 - update your `./.env` file according to `./.env.example`
   (new variables may have been introduced)
+- if you have overridden `docker-compose.yml` using `docker-compose.override.yml`, see
+  `docker-compose.yml` to check if something has added, changed or deleted, compared to
+  the previous version of `docker-compose.yml` you were using before updating 
 - launch `.docker/scripts/start --build`
 
 ## Scripts
 
-Dockpress provides some useful script, located in `.docker/scripts`:
+Dockpress provides some useful script, located in `.docker/scripts`.
+
+Run them from your Dockpress base folder.
+
+### init
+
+```bash
+.docker/scripts/init
+```
+It's a shortcut to 
+```bash
+docker-compose up -d --build
+```
+
+It will build and start the containers
 
 ### start
+
+```bash
+.docker/scripts/start
+```
+
 It's a shortcut to 
 ```bash
 docker-compose up -d
@@ -108,9 +148,11 @@ Tired of working? Stop the environment
 ```
 
 ### wp-install
-It's useful to bring up a new WordPress project. It will prepare a fresh WordPress installation in your $APP_SRC,
-create a `$APP_SRC/.env` file holding the same values which are in the main `./env` file,
-create a `wp-config.php` file which uses the aforementioned `.env` file
+It's useful to bring up a new WordPress project.
+It will prepare a fresh WordPress installation in your `${APP_SRC}`,
+create a `${APP_SRC}/.env` file holding the same values which are in the main `./env` file,
+create a `${APP_SRC}/wp-config.php` file which uses the aforementioned `.env` file
+
 ```bash
 .docker/scripts/wp-install
 ```
@@ -128,7 +170,7 @@ you're going to lose all your WordPress codebase and the related database!
 
 To throw away anything and start again from the scratch, use
 ```bash
-.docker/scripts/nah && .docker/scripts/start --build && .docker/scripts/wp-install
+.docker/scripts/nah && .docker/scripts/init && .docker/scripts/wp-install
 ```
 
 ## Accessing the database
@@ -161,9 +203,9 @@ To catch all outgoing emails via MailHog, install a WordPress plugin
 
 MailHog web interface is available at
 
-http://$APP_HOST:$MAILHOG_PORT
+[http://${APP_HOST}:${MAILHOG_PORT}]()
 
-For example: http://mydockpress.test:8081
+For example: [http://mydockpress.test:8081]()
 
 
 ## Contributing

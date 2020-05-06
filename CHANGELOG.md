@@ -6,8 +6,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.4.0 - 2020-04-30
+## [1.5.0] - 2020-05-06
+### Added
+- add `$DATABASE_IMAGE` env variable to choose database image (MySQL or MariaDB, with optional tags)
+- add `init` script
+- minor updates to `README.md` 
 
+## [1.4.0] - 2020-04-30
 ### Added
 - add `$PHP_VERSION` env variable to choose PHP version (between `7.2`, `7.3`, `7.4`)
 - add OPCache support
