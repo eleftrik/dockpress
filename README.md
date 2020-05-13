@@ -14,6 +14,8 @@ Dockpress
 Looking for a similar Docker environment for [Laravel](https://laravel.com/)? Then give a try to
 [Laradhoc](https://github.com/eleftrik/laradhoc)!
 
+[Preferisci leggere in italiano? 🇮🇹](README.it.md)
+
 ## Features
 
 * Nginx
@@ -42,7 +44,7 @@ just run `cp docker-compose.yml docker-compose.override.yml` then edit your
 
 Just clone this repo.
 
-Let's pretend your Laravel application will be accessible at `mydockpress.test`:
+Let's pretend your WordPress application will be accessible at `mydockpress.test`:
 
 ```bash
 git clone git@github.com:eleftrik/dockpress.git mydockpress.test
@@ -135,7 +137,7 @@ It's a shortcut to
 docker-compose up -d
 ```
 
-You can add the flag --build if you want to build the images, otherwise
+You can add the flag `--build` if you want to build the images, otherwise
 ```bash
 .docker/scripts/start
 ```

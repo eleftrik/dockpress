@@ -6,6 +6,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2020-05-13
+### Added
+- add `README.it.md` (README in Italian language)
+- minor updates to `README.md` 
+
 ## [1.5.0] - 2020-05-06
 ### Added
 - add `$DATABASE_IMAGE` env variable to choose database image (MySQL or MariaDB, with optional tags)
