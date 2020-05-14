@@ -152,7 +152,7 @@ Tired of working? Stop the environment
 ### wp-install
 It's useful to bring up a new WordPress project.
 It will prepare a fresh WordPress installation in your `${APP_SRC}`,
-create a `${APP_SRC}/.env` file holding the same values which are in the main `./env` file,
+create a `${APP_SRC}/.env` file holding the same values which are in the main `.env` file,
 create a `${APP_SRC}/wp-config.php` file which uses the aforementioned `.env` file
 
 ```bash

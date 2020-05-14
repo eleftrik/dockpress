@@ -94,7 +94,7 @@ La prossima volta che hai bisogno di eseguire la tua applicazione, se non hai mo
 Quando esegui l'aggiornamento a partire da una versione precedente, segui questi passaggi:
 - aggiorna il tuo codice
     - via `git pull` se punti ancora a questo repository, un fork o un repo privato
-    - manualmente, scaricando una [release](https://github.com/eleftrik/dockpress/releases)
+    - manualmente, scaricando la [release](https://github.com/eleftrik/dockpress/releases) che ti occorre
     
     In entrambi i casi, la cartella `src/` non verrà coinvolta 
 - consulta `CHANGELOG.md`
@@ -109,7 +109,7 @@ Quando esegui l'aggiornamento a partire da una versione precedente, segui questi
 
 Dockpress fornisce alcuni comodi script, situati nella cartella `.docker/scripts`.
 
-Eseguili dalla cartella base in cui hai collocato il Dockpress.
+Eseguili dalla cartella base in cui hai collocato Dockpress.
 
 ### init
 
@@ -150,7 +150,7 @@ Stanco di lavorare?
 ### wp-install
 Utile per tirare su un nuovo progetto WordPress da zero.
 Rende disponibile una nuova installazione di WordPress nella cartella `${APP_SRC}`,
-crea un file `${APP_SRC}/.env` contenente gli stessi valori presenti nel file `./env` principale,
+crea un file `${APP_SRC}/.env` contenente gli stessi valori presenti nel file `.env` principale,
 infine crea un file `${APP_SRC}/wp-config.php` che usa il file `.env` sopra menzionato.
 
 ```bash
