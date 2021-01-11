@@ -84,10 +84,10 @@ $table_prefix = 'wp_';
  *
  * Modificare questa voce a TRUE per abilitare la visualizzazione degli avvisi
  * durante lo sviluppo.
- * È fortemente raccomandato agli svilupaptori di temi e plugin di utilizare
+ * È fortemente raccomandato agli sviluppatori di temi e plugin di utilizare
  * WP_DEBUG all’interno dei loro ambienti di sviluppo.
  */
-define('WP_DEBUG', getenv('APP_DEBUG'));
+define('WP_DEBUG', getenv('APP_DEBUG') === 'true');
 
 /* Finito, interrompere le modifiche! Buon blogging. */
 
