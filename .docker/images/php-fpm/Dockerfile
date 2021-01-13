@@ -2,7 +2,7 @@ ARG PHP_VERSION
 FROM php:${PHP_VERSION}-fpm
 
 # Set working directory
-#WORKDIR /var/www
+WORKDIR /var/www
 
 # If XDebug has been enabled, configure it
 ARG ENABLE_XDEBUG
@@ -22,12 +22,15 @@ RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
 fi;
 
 # Install dependencies
-RUN apt-get update && \
+# mkdir is required for fixing an error while installing pdftk
+RUN mkdir /usr/share/man/man1/ && \
+    apt-get update && \
     apt-get install -y --no-install-recommends curl \
     libmemcached-dev \
     libz-dev \
     libjpeg-dev \
     libpng-dev \
+    libwebp-dev \
     libssl-dev \
     libmcrypt-dev \
     less \
@@ -38,12 +41,17 @@ RUN apt-get update && \
     unzip \
     libzip-dev \
     libfreetype6-dev \
-    libjpeg62-turbo-dev
+    libjpeg62-turbo-dev \
+    pdftk \
+    poppler-utils \
+    libldap2-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 RUN docker-php-ext-install pdo_mysql \
     pcntl \
@@ -51,14 +59,17 @@ RUN docker-php-ext-install pdo_mysql \
 RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
-RUN if [[ ${PHP_VERSION} == 7.4* ]] ; then \
-    docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j "$(nproc)" gd; \
-fi;
-RUN if [[ ${PHP_VERSION} == 7.2* ]] || [[ ${PHP_VERSION} == 7.3* ]] ; then \
-    docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
-    && docker-php-ext-install gd;\
-fi;
+RUN case ${PHP_VERSION} in \
+    "7.4"*) \
+        docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
+        && docker-php-ext-install gd; \
+        ;; \
+    *) \
+        docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+        --with-webp-dir=/usr/include/ \
+        && docker-php-ext-install gd \
+        ;; \
+    esac;
 RUN docker-php-ext-install opcache
 
 # Configure php.ini

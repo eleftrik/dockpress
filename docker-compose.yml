@@ -1,10 +1,10 @@
 version: '3.2'
 services:
   database:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_database
     tty: true
-    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+    command: [ '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password' ]
     build:
       context: ./.docker/images/mysql
       args:
@@ -24,7 +24,7 @@ services:
     depends_on:
       - nginx
   nginx:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_nginx
     working_dir: /var/www/
     build:
@@ -53,12 +53,14 @@ services:
     volumes:
       - ${APP_SRC}:/var/www/:cached
   redis:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_redis
     build:
       context: ./.docker/images/redis
     expose:
       - 6379
+    ports:
+      - 6379:6379
   mailhog:
     restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_mailhog
