@@ -1,6 +1,8 @@
 Dockpress
 ===
 
+# Warning: this project is no longer maintained
+
 ![dockpress](https://user-images.githubusercontent.com/6959298/77827046-c0bab400-7113-11ea-82bc-ca1214fae140.png)
 
 ![GitHub stars](https://img.shields.io/github/stars/eleftrik/dockpress?style=social)
